@@ -112,6 +112,7 @@ color1 = st.sidebar.color_picker("Select Secondary Color", value=color1)
 
 st.title(f"{selected_player_name}")
 st.subheader(f"{selected_fixture}")
+st.image(f"https://github.com/jaymes1973/solutions_consultant/blob/main/media/{selected_team_name}.png?raw=true")
 
 # Check if data is available after filtering
 if filtered_player_data.empty:
