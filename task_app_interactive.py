@@ -13,6 +13,7 @@ from plotly.subplots import make_subplots
 from scipy.stats import zscore
 import numpy as np
 import matplotlib.pyplot as plt
+from unidecode import unidecode
 
 color1 = "#b1bcc4"
 team_color = "#ff6300"
@@ -112,7 +113,9 @@ color1 = st.sidebar.color_picker("Select Secondary Color", value=color1)
 
 st.title(f"{selected_player_name}")
 st.subheader(f"{selected_fixture}")
-st.image(f"https://github.com/jaymes1973/solutions_consultant/blob/main/media/{selected_team_name}.png?raw=true")
+team_badge=unidecode(selected_team_name)
+team_badge=team_badge.replace(' ', '_')
+st.image(f"https://github.com/jaymes1973/solutions_consultant/blob/main/media/{team_badge}.png?raw=true")
 
 # Check if data is available after filtering
 if filtered_player_data.empty:
