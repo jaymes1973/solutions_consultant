@@ -112,11 +112,11 @@ color1 = st.sidebar.color_picker("Select Secondary Color", value="#b1bcc4")
 team_badge=unidecode(selected_team_name)
 team_badge=team_badge.replace(' ', '_')
 
-col1,col2 = st.columns([0.1,0.9])
+col1,col2 = st.columns([0.1,0.9],vertical_alignment="top")
 with col1:
-    st.image(f"https://github.com/jaymes1973/solutions_consultant/blob/main/media/jubilo_iwata.png?raw=true")
+    st.image(f"https://github.com/jaymes1973/solutions_consultant/blob/main/media/jubilo_iwata.png?raw=true",width=75)
 with col2:
-    st.title(f"{selected_player_name}",width=50)
+    st.title(f"{selected_player_name}")
 
 st.subheader(f"{selected_fixture}")
 
