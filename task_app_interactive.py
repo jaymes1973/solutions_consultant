@@ -22,7 +22,7 @@ team_color = "#ff6300"
 def load_data(filepath):
     return pd.read_csv(filepath)
 
-data = load_data("/Users/jaymesmonte/Desktop/Hudl/job_application/solutions_consultant/data/final_data.csv")
+data = load_data("https://raw.githubusercontent.com/jaymes1973/solutions_consultant/refs/heads/main/final_data.csv")
 
 # Sidebar filters
 st.sidebar.header("Filters")
