@@ -112,7 +112,7 @@ color1 = st.sidebar.color_picker("Select Secondary Color", value="#b1bcc4")
 team_badge=unidecode(selected_team_name)
 team_badge=team_badge.replace(' ', '_')
 
-col1,col2 = st.columns(2)
+col1,col2 = st.columns([0.1,0.9])
 with col1:
     st.image(f"https://github.com/jaymes1973/solutions_consultant/blob/main/media/jubilo_iwata.png?raw=true")
 with col2:
