@@ -109,11 +109,16 @@ selected_metric = metrics_mapping[selected_metric_display]
 team_color = st.sidebar.color_picker("Select Team Color", value="#ff6300")
 color1 = st.sidebar.color_picker("Select Secondary Color", value="#b1bcc4")
 
-st.title(f"{selected_player_name}")
-st.subheader(f"{selected_fixture}")
 team_badge=unidecode(selected_team_name)
 team_badge=team_badge.replace(' ', '_')
-st.image(f"https://github.com/jaymes1973/solutions_consultant/blob/main/media/jubilo_iwata.png?raw=true")
+
+col1, mid, col2 = st.beta_columns([1,1,20])
+with col1:
+    st.image(f"https://github.com/jaymes1973/solutions_consultant/blob/main/media/jubilo_iwata.png?raw=true")
+with col2:
+    st.title(f"{selected_player_name}")
+
+st.subheader(f"{selected_fixture}")
 
 # Check if data is available after filtering
 if filtered_player_data.empty:
