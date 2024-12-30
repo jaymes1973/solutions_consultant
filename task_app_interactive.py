@@ -26,7 +26,7 @@ data = load_data("https://raw.githubusercontent.com/jaymes1973/solutions_consult
 
 # Sidebar filters
 st.set_page_config(layout="wide")
-st.sidebar.image("https://github.com/jaymes1973/solutions_consultant/blob/main/image.png?raw=true")
+st.sidebar.image("https://github.com/jaymes1973/solutions_consultant/blob/main/media/image.png?raw=true")
 st.sidebar.header("Filters")
 teams_list=data["team_name"].unique().tolist()
 teams_list.remove("0")
