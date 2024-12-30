@@ -15,8 +15,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from unidecode import unidecode
 
-color1 = "#b1bcc4"
-team_color = "#ff6300"
+st.set_page_config(layout="wide")
 
 # Load the data
 @st.cache_data
@@ -26,7 +25,6 @@ def load_data(filepath):
 data = load_data("https://raw.githubusercontent.com/jaymes1973/solutions_consultant/refs/heads/main/final_data.csv")
 
 # Sidebar filters
-st.set_page_config(layout="wide")
 st.sidebar.image("https://github.com/jaymes1973/solutions_consultant/blob/main/media/image.png?raw=true")
 st.sidebar.header("Filters")
 teams_list=data["team_name"].unique().tolist()
@@ -108,14 +106,14 @@ metrics_mapping = {
 selected_metric = metrics_mapping[selected_metric_display]
 
 # Sidebar color pickers for team color and color1
-team_color = st.sidebar.color_picker("Select Team Color", value=team_color)
-color1 = st.sidebar.color_picker("Select Secondary Color", value=color1)
+team_color = st.sidebar.color_picker("Select Team Color", value="#ff6300")
+color1 = st.sidebar.color_picker("Select Secondary Color", value="#b1bcc4")
 
 st.title(f"{selected_player_name}")
 st.subheader(f"{selected_fixture}")
 team_badge=unidecode(selected_team_name)
 team_badge=team_badge.replace(' ', '_')
-#st.image(f"https://github.com/jaymes1973/solutions_consultant/blob/main/media/{team_badge}.png?raw=true")
+st.image(f"https://github.com/jaymes1973/solutions_consultant/blob/main/media/{team_badge}.png?raw=true")
 
 # Check if data is available after filtering
 if filtered_player_data.empty:
