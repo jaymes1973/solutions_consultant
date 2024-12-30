@@ -108,7 +108,8 @@ selected_metric = metrics_mapping[selected_metric_display]
 team_color = st.sidebar.color_picker("Select Team Color", value=team_color)
 color1 = st.sidebar.color_picker("Select Secondary Color", value=color1)
 
-st.title(f"{selected_player_name}\n{selected_fixture} | Positional filter: {selected_player_position}")
+st.title(f"{selected_player_name}")
+st.subheader(f"{selected_fixture}")
 
 # Check if data is available after filtering
 if filtered_player_data.empty:
