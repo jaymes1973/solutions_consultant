@@ -116,7 +116,7 @@ col1,col2 = st.columns([0.1,0.9])
 with col1:
     st.image(f"https://github.com/jaymes1973/solutions_consultant/blob/main/media/jubilo_iwata.png?raw=true")
 with col2:
-    st.title(f"{selected_player_name}")
+    st.title(f"{selected_player_name}",width=50)
 
 st.subheader(f"{selected_fixture}")
 
