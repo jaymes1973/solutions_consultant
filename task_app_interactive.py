@@ -30,7 +30,7 @@ selected_team_name = st.sidebar.selectbox("Select Team", data["team_name"].uniqu
 filtered_team_data = data[data["team_name"] == selected_team_name]
 
 if not filtered_team_data.empty:
-    selected_player_name = st.sidebar.selectbox("Select Player", filtered_team_data["player_name"].unique())
+    selected_player_name = st.sidebar.selectbox("Select Player", filtered_team_data["player_name"].unique().remove("0"))
     filtered_player_data = filtered_team_data[filtered_team_data["player_name"] == selected_player_name]
     
     minimum_mins_played = st.sidebar.slider("Minimum Minutes Played", min_value=0, max_value=90, value=0, step=1)
