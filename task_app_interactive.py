@@ -113,7 +113,7 @@ st.title(f"{selected_player_name}")
 st.subheader(f"{selected_fixture}")
 team_badge=unidecode(selected_team_name)
 team_badge=team_badge.replace(' ', '_')
-st.image(f"https://raw.githubusercontent.com/jaymes1973/solutions_consultant/refs/heads/main/media/{team_badge}.png")
+st.image(f"https://github.com/jaymes1973/solutions_consultant/blob/main/media/jubilo_iwata.png?raw=true")
 
 # Check if data is available after filtering
 if filtered_player_data.empty:
