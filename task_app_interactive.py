@@ -120,7 +120,7 @@ with col2:
     st.title(f"{selected_player_name}")
 
 st.subheader(f"{selected_fixture}")
-st.text(f"{selected_player_name} performance on selected metrics for the {selected_fixture} fixture, relative to all other J1 League - 2024 matches in which they have played a minimum of {minimum_mins_played} minutes ({games_considered} games).")
+st.text(f"{selected_player_name} performance on selected metrics for the {selected_fixture} fixture, relative to all other J1 League - 2024 matches in which they have played a minimum of {minimum_mins_played} minutes ({games_considered} games).\nAll metrics are adjusted to per 90 calculations.")
 
 # Check if data is available after filtering
 if filtered_player_data.empty:
