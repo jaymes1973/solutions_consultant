@@ -1,3 +1,4 @@
+
 """
 Created on Fri Dec 20 15:05:00 2024
 
@@ -44,7 +45,7 @@ if not filtered_player_data.empty:
 else:
     st.error("No data available for the selected player.")
     st.stop()
-    
+
 games_considered=len(filtered_player_data)
 # Player Position filter
 player_positions = ['Forward', 'Midfielder', 'Defender',]  # Example player positions
@@ -57,6 +58,7 @@ metrics_dict = {
            "player_match_np_shots",
            "xG Assisted",
            "player_match_fhalf_lbp_received",
+           "ball_receipts_in_half_space",
            "player_match_aerial_ratio",
            "player_match_touches_inside_box",
            "player_match_pressures",
@@ -68,8 +70,9 @@ metrics_dict = {
            "player_match_obv_pass",
            "player_match_obv_dribble_carry",
            "obv_per_pass",
-           "player_match_interceptions",
+           "ball_receipts_in_half_space",
            "player_match_f3_lbp",
+           "player_match_interceptions",
            'total_distance',
            'sprint_distance'],
     'Defender': ["player_match_tackles",
@@ -278,5 +281,5 @@ else:
     # Display the interactive plot in Streamlit
     st.plotly_chart(fig)
     st.subheader(f"Game-by-game | {selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize()}")
-    st.text(f"{selected_player_name} {selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize()} for all J1 League - 2024 matches in which they have played a minimum of {minimum_mins_played} minutes ({games_considered} games).")
+    st.text(f"{selected_player_name} {selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize()} for all J1 League - 2024 matches in which they have played a minimum of {minimum_mins_played} minutes.")
     st.pyplot(fig_bar,transparent=True)
