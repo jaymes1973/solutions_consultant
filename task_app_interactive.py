@@ -1,4 +1,3 @@
-
 """
 Created on Fri Dec 20 15:05:00 2024
 
@@ -109,6 +108,7 @@ selected_metric = metrics_mapping[selected_metric_display]
 # Sidebar color pickers for team color and color1
 team_color = st.sidebar.color_picker("Select Team Color", value="#ff6300")
 color1 = st.sidebar.color_picker("Select Secondary Color", value="#b1bcc4")
+text_color = st.sidebar.color_picker("Select Text Color", value="#000000")
 
 team_badge=unidecode(selected_team_name)
 team_badge=team_badge.replace(' ', '_').lower()
@@ -194,7 +194,7 @@ else:
             textfont=dict(
                 family="Arial",  # Font family for the text
                 size=10,  # Font size
-                color="black"  # Text color (you can change this to any valid color)
+                color=text_color  # Text color (you can change this to any valid color)
             ),
             name=f"Selected Fixture ({selected_fixture}) - {metric}",
             showlegend=False  # Hide this trace from the legend
@@ -206,7 +206,7 @@ else:
             x=-3.5,  # Position the title on the left side of the subplot
             y=0.1,  # Adjust the vertical positioning
             text=title,
-            font=dict(size=14, color="black", family="Arial"),
+            font=dict(size=14, color=text_color, family="Arial"),
             showarrow=False,
             xref="paper", yref="y",
             row=idx + 1, col=1,
@@ -253,7 +253,7 @@ else:
             type="line",
             x0=-3, x1=3,  # Match the x-axis limits
             y0=-.25, y1=-.25,  # Line at y=0
-            line=dict(color="black", width=2),  # Line style
+            line=dict(color=text_color, width=2),  # Line style
             xref=f"x{idx}",  # Reference to the current x-axis
             yref=f"y{idx}"  # Reference to the current y-axis
         )
@@ -267,9 +267,9 @@ else:
     
     ax.bar(x_pos, filtered_player_data[selected_metric], color=team_color, ec=color1,lw=2, alpha=1)
     ax.set_xticks(x_pos)
-    ax.set_xticklabels(bars, rotation=45, ha="right")  
+    ax.set_xticklabels(bars, rotation=45, ha="right", color=text_color)  
     ax.set_ylabel(selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize(),
-                  fontsize=14, color="black")
+                  fontsize=14, color=text_color)
     #ax.set_title(f"{selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize()} for {selected_player_name}", 
      #            fontsize=18, color="black")
     # Remove unnecessary spines
