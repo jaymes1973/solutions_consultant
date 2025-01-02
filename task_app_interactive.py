@@ -1,11 +1,8 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Created on Fri Dec 20 15:05:00 2024
 
 @author: jaymesmonte
 """
-
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
@@ -27,7 +24,7 @@ data = load_data("https://raw.githubusercontent.com/jaymes1973/solutions_consult
 # Sidebar filters
 st.sidebar.image("https://github.com/jaymes1973/solutions_consultant/blob/main/media/image.png?raw=true")
 st.sidebar.header("Filters")
-teams_list=data["team_name"].unique().tolist()
+teams_list=sorted(data["team_name"].unique().tolist())
 teams_list.remove("0")
 selected_team_name = st.sidebar.selectbox("Select Team", teams_list)
 filtered_team_data = data[data["team_name"] == selected_team_name]
@@ -36,14 +33,14 @@ if not filtered_team_data.empty:
     selected_player_name = st.sidebar.selectbox("Select Player", filtered_team_data["player_name"].unique())
     filtered_player_data = filtered_team_data[filtered_team_data["player_name"] == selected_player_name]
     
-    minimum_mins_played = st.sidebar.slider("Minimum Minutes Played", min_value=0, max_value=90, value=0, step=1)
+    minimum_mins_played = st.sidebar.slider("Minimum Minutes Played", min_value=0, max_value=90, value=45, step=1)
     filtered_player_data = filtered_player_data[filtered_player_data["player_match_minutes"] >= minimum_mins_played]
 else:
     st.error("No players available for the selected team.")
     st.stop()
 
 if not filtered_player_data.empty:
-    selected_fixture = st.sidebar.selectbox("Select Fixture", filtered_player_data["fixture"].unique())
+    selected_fixture = st.sidebar.selectbox("Select Highlighted Fixture", filtered_player_data["fixture"].unique())
 else:
     st.error("No data available for the selected player.")
     st.stop()
@@ -119,6 +116,7 @@ with col2:
     st.title(f"{selected_player_name}")
 
 st.subheader(f"{selected_fixture}")
+st.text(f"{selected_player_name} performance on selected metrics for the {selected_fixture} fixture, relative to all other J1 League - 2024 matches in which they have played a minimum of {minimum_mins_played} minutes.")
 
 # Check if data is available after filtering
 if filtered_player_data.empty:
@@ -147,8 +145,10 @@ else:
     # Loop through each metric and plot on the respective subplot
     for idx, metric in enumerate(metrics):
         # Plot all other fixtures' z-scores
+        
         for z_score_value, group in non_fixture_df.groupby(f"{metric}_zscore"):
-            fixture_names = '<br>'.join(group['fixture'].unique())  # Combine fixture names
+            group["non_fixture_display"]=group["fixture"]+" ("+round(group[metric],2).astype(str)+")"
+            fixture_names = '<br>'.join(group['non_fixture_display'].unique())  # Combine fixture names
             fig.add_trace(go.Scatter(
                 x=[z_score_value], 
                 y=[0], 
@@ -163,7 +163,7 @@ else:
             
             fig.update_yaxes(showticklabels=False, row=idx + 1, col=1)
             fig.update_xaxes(range=[-4.25, 3.25], row=idx + 1, col=1)
-
+            
         # Highlight the selected fixture's z-score
         z_score_value = fixture_df[f"{metric}_zscore"].iloc[0]
         metric_value = fixture_df[metric].iloc[0]
@@ -172,6 +172,7 @@ else:
             formatted_value = f"{int(metric_value)}"  # Display as integer
         else:
             formatted_value = f"{metric_value:.2f}"  # Display with two decimal places
+
         fig.add_trace(go.Scatter(
             x=[z_score_value], 
             y=[0], 
@@ -275,5 +276,6 @@ else:
     ax.grid(axis="y", linestyle="--", color="gray", alpha=0.5)
     # Display the interactive plot in Streamlit
     st.plotly_chart(fig)
-    st.subheader(f"Game-by-game for {selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize()}")
+    st.subheader(f"Game-by-game | {selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize()}")
+    st.text(f"{selected_player_name} {selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize()} for all J1 League - 2024 matches in which they have played a minimum of {minimum_mins_played} minutes.")
     st.pyplot(fig_bar)
