@@ -150,7 +150,7 @@ else:
     fixture_df = filtered_player_data[filtered_player_data["fixture"] == selected_fixture]
     
     formatted_titles = [metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize() for metric in metrics]
-    formatted_titles = [metric.replace('Xg', 'xG') for metric in formatted_titles]
+    formatted_titles = [metric.replace('Xg', 'xG').replace('Obv', 'OBV') for metric in formatted_titles]
 
     # Create subplots, one for each metric
     fig = make_subplots(
@@ -311,7 +311,7 @@ else:
     ax.grid(axis="y", linestyle="--", color="gray", alpha=0.5)
     # Display the interactive plot in Streamlit
     st.plotly_chart(fig)
-    st.subheader(f"Game-by-game | {selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize().replace('Xg', 'xG')}")
+    st.subheader(f"Game-by-game | {selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize().replace('Xg', 'xG').replace('Obv', 'OBV')}")
     st.text(f"{selected_player_name} {selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize()} for all J1 League - 2024 matches in which they have played a minimum of {minimum_mins_played} minutes.")
     st.pyplot(fig_bar,transparent=True)
     
