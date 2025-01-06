@@ -279,6 +279,14 @@ else:
     x_pos = np.arange(len(filtered_player_data))
     
     ax.bar(x_pos, filtered_player_data[selected_metric], color=team_color, ec=color1,lw=2, alpha=1)
+    
+    # Get current y-ticks and labels
+    ticks = ax.get_yticks()
+    y_labels = [str(round(tick,2)) if tick != 0 else "Minutes Played" for tick in ticks]
+    
+    # Set modified labels
+    ax.set_yticks(ticks)
+    ax.set_yticklabels(y_labels)
     ax.set_xticks(x_pos)
     ax.set_xticklabels(bars, rotation=45, ha="right", color=text_color)  
     ax.set_ylabel(selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize(),
@@ -306,5 +314,4 @@ else:
     st.subheader(f"Game-by-game | {selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize().replace('Xg', 'xG')}")
     st.text(f"{selected_player_name} {selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize()} for all J1 League - 2024 matches in which they have played a minimum of {minimum_mins_played} minutes.")
     st.pyplot(fig_bar,transparent=True)
-    
     
