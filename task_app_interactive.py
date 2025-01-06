@@ -13,6 +13,16 @@ import matplotlib.pyplot as plt
 from unidecode import unidecode
 
 st.set_page_config(layout="wide")
+st.markdown(
+    """
+    <style>
+    html, body, [class*="css"]  {
+        font-family: 'Arial', sans-serif;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # Load the data
 @st.cache_data
@@ -93,6 +103,7 @@ metrics = metrics_dict.get(selected_player_position, [])
 metrics_options = [
     metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize() for metric in metrics_dict.get(selected_player_position, [])
 ]
+#metrics_options = [metric.replace('Xg', 'xG') for metric in metrics_options]
 
 # Sidebar dropdown for bar chart metric
 selected_metric_display = st.sidebar.selectbox(
@@ -104,6 +115,8 @@ metrics_mapping = {
     metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize(): metric for metric in metrics_dict.get(selected_player_position, [])
 }
 selected_metric = metrics_mapping[selected_metric_display]
+
+mins_played=int(filtered_player_data[filtered_player_data["fixture"] == selected_fixture].reset_index(drop=True).iloc[0]["player_match_minutes"])
 
 # Sidebar color pickers for team color and color1
 team_color = st.sidebar.color_picker("Select Team Color", value="#ff6300")
@@ -120,7 +133,7 @@ with col2:
     st.title(f"{selected_player_name}")
 
 st.subheader(f"{selected_fixture}")
-st.text(f"{selected_player_name} performance on selected metrics for the {selected_fixture} fixture, relative to all other J1 League - 2024 matches in which they have played a minimum of {minimum_mins_played} minutes ({games_considered} games).\nAll metrics are adjusted to per 90 calculations.")
+st.text(f"{selected_player_name} performance on selected metrics for the {selected_fixture} fixture ({mins_played} minutes played), relative to all other J1 League - 2024 matches in which they have played a minimum of {minimum_mins_played} minutes ({games_considered} games).\nAll metrics are adjusted to per 90 calculations.")
 
 # Check if data is available after filtering
 if filtered_player_data.empty:
@@ -137,6 +150,7 @@ else:
     fixture_df = filtered_player_data[filtered_player_data["fixture"] == selected_fixture]
     
     formatted_titles = [metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize() for metric in metrics]
+    formatted_titles = [metric.replace('Xg', 'xG') for metric in formatted_titles]
 
     # Create subplots, one for each metric
     fig = make_subplots(
@@ -192,7 +206,6 @@ else:
             textposition="middle center",  # Position the text in the middle of the marker
             hoverinfo="skip",  # Skip hover info since the text is static
             textfont=dict(
-                family="Arial",  # Font family for the text
                 size=10,  # Font size
                 color=text_color  # Text color (you can change this to any valid color)
             ),
@@ -206,7 +219,7 @@ else:
             x=-3.5,  # Position the title on the left side of the subplot
             y=0.1,  # Adjust the vertical positioning
             text=title,
-            font=dict(size=14, color=text_color, family="Arial"),
+            font=dict(size=14, color=text_color),
             showarrow=False,
             xref="paper", yref="y",
             row=idx + 1, col=1,
@@ -220,7 +233,7 @@ else:
         x=0,  # Place the text at x=0
         y=1.05,  # Adjust the vertical position as needed (above the plot)
         text="Season Average",
-        font=dict(size=12, color="black", family="Arial"),
+        font=dict(size=12, color="black"),
         showarrow=False,
         xref="x",  # Reference to the entire figure's x-axis
         yref="paper",  # Use "paper" for y-coordinate to place it above the figure
@@ -261,7 +274,7 @@ else:
     fig_bar.set_facecolor("white")
     
     # Extract bar chart data
-    filtered_player_data=filtered_player_data.sort_values(by=['match_date'],ascending=True)
+    filtered_player_data=filtered_player_data.sort_values(by=['match_date'],ascending=True).reset_index(drop=True)
     bars = filtered_player_data["fixture"]
     x_pos = np.arange(len(filtered_player_data))
     
@@ -275,11 +288,23 @@ else:
     # Remove unnecessary spines
     for spine in ["top", "right"]:
         ax.spines[spine].set_visible(False)
+        
+    for match in bars:
+        match_data=filtered_player_data[filtered_player_data["fixture"]==match]
+        value=int(match_data.iloc[0]["player_match_minutes"])
+        x_cord=match_data.index[0]
+        y_cord=0
+        ax.text(s=f"{value}",x=x_cord,y=y_cord,
+                        size=10,color=text_color,ha="center",va="center",
+                         zorder=11,fontweight='bold',
+                         bbox=dict(facecolor="white", edgecolor=color1,lw=2, boxstyle='circle,pad=.35'))
     
     # Add gridlines for better readability
     ax.grid(axis="y", linestyle="--", color="gray", alpha=0.5)
     # Display the interactive plot in Streamlit
     st.plotly_chart(fig)
-    st.subheader(f"Game-by-game | {selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize()}")
+    st.subheader(f"Game-by-game | {selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize().replace('Xg', 'xG')}")
     st.text(f"{selected_player_name} {selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize()} for all J1 League - 2024 matches in which they have played a minimum of {minimum_mins_played} minutes.")
     st.pyplot(fig_bar,transparent=True)
+    
+    
