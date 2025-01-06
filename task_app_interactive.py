@@ -312,6 +312,6 @@ else:
     # Display the interactive plot in Streamlit
     st.plotly_chart(fig)
     st.subheader(f"Game-by-game | {selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize().replace('Xg', 'xG').replace('Obv', 'OBV')}")
-    st.text(f"{selected_player_name} {selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize()} for all J1 League - 2024 matches in which they have played a minimum of {minimum_mins_played} minutes.")
+    st.text(f"{selected_player_name} {selected_metric.replace('player_match_', '').replace('np_', '').replace('_', ' ').replace('ratio', '%').capitalize()} for all J1 League - 2024 matches in which they have played a minimum of {minimum_mins_played} minutes ({games_considered} games).")
     st.pyplot(fig_bar,transparent=True)
     
