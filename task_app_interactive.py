@@ -188,6 +188,8 @@ else:
         # Format the value conditionally based on whether it has a fractional part
         if metric_value.is_integer():
             formatted_value = f"{int(metric_value)}"  # Display as integer
+        elif abs(metric_value) <= 0.01:
+            formatted_value = f"{metric_value:.4f}"  # Display with four decimal place
         else:
             formatted_value = f"{metric_value:.2f}"  # Display with two decimal places
 
