@@ -68,7 +68,7 @@ metrics_dict = {
            "xG Assisted",
            "player_match_fhalf_lbp_received",
            "ball_receipts_in_half_space",
-           "player_match_aerial_ratio",
+           "player_match_aerials",
            "player_match_touches_inside_box",
            "player_match_pressures",
            'total_distance',
